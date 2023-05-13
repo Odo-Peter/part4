@@ -6,7 +6,7 @@ mongoose.set('strictQuery', false);
 
 const Url = config.MONGODB_URI;
 
-console.log('connecting to .... MONGODB', Url);
+logger.info('connecting to .... MONGODB');
 
 mongoose
   .connect(Url)
@@ -14,12 +14,19 @@ mongoose
   .catch((err) => logger.error('Error connecting to MONGODB: ', err));
 
 //making the mongoose schema
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-});
+const blogSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    author: String,
+    url: { type: String, required: true },
+    likes: Number,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  },
+  { timestamps: true }
+);
 
 blogSchema.set('toJSON', {
   transform: (document, returnedBlog) => {

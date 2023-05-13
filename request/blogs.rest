@@ -1,12 +1,14 @@
 ###
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb3BlZHJvIiwiaWQiOiI2NDVhY2Y1NTJjYjdmNTc0ZmI0YzJmYzgiLCJpYXQiOjE2ODQwMDE4NjAsImV4cCI6MTY4NDAwNTQ2MH0.kO0aSGHw4YPw5ptXCJmPDF96F6JP5sg7_lOqQeCBzUk
 
 {
-    "title": "How to become a top notch developer and earn yourself some shillings by yours truly, the warden of the north",
-    "author": "Odo Peter Ebere",
+    "title": "Doing this for the test of it, this is some more test from the warden of the North",
+    "author": "Odo Pedro Chidi",
     "url" : "http://localhost:3003/api/blogs",
-    "likes": 2
+    "likes": 5,
+    "userId": "645acf112cb7f574fb4c2fc0"
 }
 
 ###
@@ -18,8 +20,37 @@ PUT http://localhost:3003/api/blogs/63f485936e1c1df04156dc63 HTTP/1.1
 content-type: application/json
 
 {
-"title": "This is another blog post sent to the database from the rest client of VScode, this is speaking about how I am improving my backend skills and my technical writing skills, which seems to be doing terrible at the moment",
+"title": "This is another blog post sent to the database from the rest client of VScode, this is speaking about how I am improving my backend skills and my technical writing skills, which seems to be doing terrible at the moment, further more, trying to extend the blog write-ups",
 "author": "Odo Peter Ebere",
 "url": "http://localhost:3003/api/blogs",
-"likes": 2
+"likes": 5
+}
+###
+
+DELETE http://localhost:3003/api/blogs/645c3de0d8a5df484d8787bf HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb3BlZHJvIiwiaWQiOiI2NDVhY2Y1NTJjYjdmNTc0ZmI0YzJmYzgiLCJpYXQiOjE2ODM5OTYwMjUsImV4cCI6MTY4Mzk5OTYyNX0.JNhIjTxMJYAdeVgpN7Vpquc_8KKixH7rVIygLA43Qpw
+
+
+//////user REST
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Sir Hodor",
+    "name": "Hodor Snow",
+    "password": "123456"
+}
+
+
+###
+POST http://localhost:3003/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Odopedro",
+    "name": "Odo Pedro Ebere",
+    "password": "123456"
 }

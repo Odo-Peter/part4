@@ -1,45 +1,66 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
+const { userExtractor } = require('../utils/middleware');
 
-blogRouter.get('/', (req, res) => {
-  Blog.find({}).then((result) => {
-    res.json(result);
+blogRouter.get('/', async (req, res) => {
+  const blogs = await Blog.find({}).populate('user', {
+    username: 1,
+    name: 1,
   });
+
+  res.json(blogs);
 });
 
-blogRouter.get('/:id', (req, res, next) => {
-  const id = req.params.id;
-  Blog.findById(id)
-    .then((blog) => {
-      blog ? res.json(blog) : res.status(404).end();
-    })
-    .catch((err) => next(err));
+blogRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const returnedBlog = await Blog.findById(id);
+  returnedBlog ? res.json(returnedBlog) : res.status(404).end;
 });
 
-blogRouter.post('/', (req, res, next) => {
-  const blog = new Blog(req.body);
-  blog
-    .save()
-    .then((result) => {
-      res.status(201).json(result);
-    })
-    .catch((err) => next(err));
+blogRouter.post('/', userExtractor, async (req, res) => {
+  const { title, author, url, likes } = req.body;
+
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized request' });
+  }
+
+  const newBlog = new Blog({
+    title: title,
+    author: author,
+    url: url,
+    likes: likes,
+    user: user.id,
+  });
+
+  const savedBlog = await newBlog.save();
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
+
+  res.status(201).json(savedBlog);
 });
 
-blogRouter.delete('/:id', (req, res) => {
-  const id = req.params.id;
-  Blog.findById(id)
-    .then((blog) => {
-      Blog.deleteOne(blog).then(() => {
-        res.status(204).end();
-      });
-    })
-    .catch((err) => next(err));
+blogRouter.delete('/:id', userExtractor, async (req, res) => {
+  const { id } = req.params;
+
+  const blog = await Blog.findById(id);
+
+  const user = req.user;
+
+  if (!(blog.user.toString() === user.id.toString())) {
+    return res
+      .status(405)
+      .json({ error: 'Not allowed to delete someone else post' });
+  }
+
+  await Blog.findByIdAndDelete(id);
+  res.status(204).end();
 });
 
-blogRouter.put('/:id', (req, res, next) => {
+blogRouter.put('/:id', async (req, res) => {
   const body = req.body;
-  const id = req.params.id;
+  const { id } = req.params;
 
   const blog = {
     title: body.title,
@@ -48,11 +69,8 @@ blogRouter.put('/:id', (req, res, next) => {
     likes: body.likes,
   };
 
-  Blog.findByIdAndUpdate(id, blog, { new: true })
-    .then((updatedBlog) => {
-      res.json(updatedBlog);
-    })
-    .catch((err) => next(err));
+  const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true });
+  res.json(updatedBlog);
 });
 
 module.exports = blogRouter;
