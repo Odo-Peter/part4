@@ -49,9 +49,7 @@ blogRouter.delete('/:id', userExtractor, async (req, res) => {
   const user = req.user;
 
   if (!(blog.user.toString() === user.id.toString())) {
-    return res
-      .status(405)
-      .json({ error: 'Not allowed to delete someone else post' });
+    return res.status(405).json({ error: 'Permission denied' });
   }
 
   await Blog.findByIdAndDelete(id);
