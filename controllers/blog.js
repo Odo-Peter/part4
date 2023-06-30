@@ -27,10 +27,10 @@ blogRouter.post('/', userExtractor, async (req, res) => {
   }
 
   const newBlog = new Blog({
-    title: title,
-    author: author,
-    url: url,
-    likes: likes,
+    title,
+    author,
+    url,
+    likes: likes || 0,
     user: user.id,
   });
 
@@ -60,14 +60,15 @@ blogRouter.put('/:id', async (req, res) => {
   const body = req.body;
   const { id } = req.params;
 
-  const blog = {
+  const newBlog = {
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes,
   };
 
-  const updatedBlog = await Blog.findByIdAndUpdate(id, blog, { new: true });
+  const updatedBlog = await Blog.findByIdAndUpdate(id, newBlog, { new: true });
+
   res.json(updatedBlog);
 });
 

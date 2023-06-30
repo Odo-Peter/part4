@@ -12,15 +12,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb
 }
 
 ###
-GET http://localhost:3003/api/blogs/63f485936e1c1df04156dc63 HTTP/1.1
+GET http://localhost:3003/api/blogs HTTP/1.1
 
 
 ###
-PUT http://localhost:3003/api/blogs/63f485936e1c1df04156dc63 HTTP/1.1
+PUT http://localhost:3003/api/blogs/6461a54240a19896d7c1623c HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb3BlZHJvIiwiaWQiOiI2NDVhY2Y1NTJjYjdmNTc0ZmI0YzJmYzgiLCJpYXQiOjE2ODQyNzA5OTAsImV4cCI6MTY4NDI3NDU5MH0.SWwxVSmXQFX-Fio7ukQ2coDmbdmGU2o8o9z5ComWrgQ
 
 {
-"title": "This is another blog post sent to the database from the rest client of VScode, this is speaking about how I am improving my backend skills and my technical writing skills, which seems to be doing terrible at the moment, further more, trying to extend the blog write-ups",
+"title": "The warden of the North, proposes",
 "author": "Odo Peter Ebere",
 "url": "http://localhost:3003/api/blogs",
 "likes": 5
@@ -29,7 +30,7 @@ content-type: application/json
 
 DELETE http://localhost:3003/api/blogs/645c3de0d8a5df484d8787bf HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb3BlZHJvIiwiaWQiOiI2NDVhY2Y1NTJjYjdmNTc0ZmI0YzJmYzgiLCJpYXQiOjE2ODM5OTYwMjUsImV4cCI6MTY4Mzk5OTYyNX0.JNhIjTxMJYAdeVgpN7Vpquc_8KKixH7rVIygLA43Qpw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9kb3BlZHJvIiwiaWQiOiI2NDVhY2Y1NTJjYjdmNTc0ZmI0YzJmYzgiLCJpYXQiOjE2ODQyNzA5OTAsImV4cCI6MTY4NDI3NDU5MH0.SWwxVSmXQFX-Fio7ukQ2coDmbdmGU2o8o9z5ComWrgQ
 
 
 //////user REST

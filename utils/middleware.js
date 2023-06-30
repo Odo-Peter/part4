@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === 'CastError')
     return res.status(400).send({ error: 'malformatted id' });
   else if (err.name === 'ValidationError')
-    return res.status(400).send({ error: err.message });
+    return res.status(400).send({ error: 'All fields required' });
   else if (err.name === 'JsonWebTokenError')
     return res.status(400).json({ error: 'Invalid token' });
   else if (err.name === 'TokenExpiredError')
@@ -33,6 +33,8 @@ const userExtractor = async (req, res, next) => {
   if (!decodedToken) {
     return res.status(400).json({ error: 'Token invalid' });
   }
+
+  // if (decodeToken.)
 
   req.user = await User.findById(decodedToken.id);
   next();
